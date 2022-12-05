@@ -1,16 +1,16 @@
 <h2>Edit your profile</h2>
 <form action="/users" method="POST">
   <div class="form-group">
-    <label for="name">Name:</label>
-    <input type="text" class="form-control" name="name" id="name" value="{{ name }}">
+    <label for="university">university:</label>
+    <input type="text" class="form-control" name="university" id="university" value="{{ university }}">
   </div>
   <div class="form-group">
-    <label for="name">GitHub:</label>
-    <input type="text" class="form-control" name="github" id="github" value="{{ github }}">
+    <label for="name">email:</label>
+    <input type="text" class="form-control" name="email" id="email" value="{{ email }}">
   </div>
   <div class="form-group">
-    <label for="name">Twitter:</label>
-    <input type="text" class="form-control" name="twitter" id="twitter" value="{{ twitter }}">
+    <label for="name">location:</label>
+    <input type="text" class="form-control" name="location" id="location" value="{{ location }}">
   </div>
   <div class="form-group">
     <label for="name">Facebook:</label>
@@ -18,5 +18,6 @@
   </div>
   <button class="btn btn-primary">Update</button>
 </form>
+
 
 <p><a href="/users/{{username}}">View your profile</a></p>
