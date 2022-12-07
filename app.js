@@ -19,21 +19,45 @@ const authRouter = require('./routes/auth')
 var app = express();
 
 /*Upload Files*/
-// server.js
+
 const multer = require('multer')
-const upload = multer({ dest: 'uploads/'})
+const uuid = require('uuid').v4
+const mongoose = require('mongoose')
+const Image = require('./models/Image')
+
+mongoose.connect('mongodb://127.0.0.1', { useNewUrlParser: true, useUnifiedTopology: true });
+// const connection = mongoose.connection;
+// connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads')
+    },
+    filename: (req, file, cb) => {
+        const ext = path.extname(file.originalname);
+        const id = uuid();
+        const filePath = `images/${id}${ext}`;
+        Image.create({ filePath: filePath })
+            .then(() => {
+                cb(null, filePath)
+            });
+    }
+})
+const upload = multer({ storage }); // or simply { dest: 'uploads/' }
+app.use(express.static('public'));
+app.use(express.static('uploads'));
 
-app.post('/upload_files', upload.array('files'), uploadFiles)
+app.post('/upload', upload.array('avatar'), (req, res) => {
+    return res.redirect('/users');
+});
 
-function uploadFiles(req,res) {
-  console.log(req.body)
-  console.log(req.files)
-  res.json({ message: 'Successfully uploaded files'})
-}
+// app.get('/images', (req, res) => {
+//     Image.find()
+//         .then((images) => {
+//             return res.json({ status: 'OK', images});
+//         })
+// });
 
 
 

@@ -40,10 +40,10 @@ router.post('/', (req, res, next) => {
   }
 
   const users = req.app.locals.users;
-  const { university, email, location, facebook } = req.body;
+  const { university, email, location, facebook, transcripts } = req.body;
   const _id = ObjectID(req.session.passport.user);
 
-  users.updateOne({ _id }, { $set: { university, email, location, facebook } }, (err) => {
+  users.updateOne({ _id }, { $set: { university, email, location, facebook, transcripts } }, (err) => {
     if (err) {
       throw err;
     }
