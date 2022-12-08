@@ -26,14 +26,6 @@ const mongoose = require('mongoose')
 const Image = require('./models/Image')
 const upload = multer({ dest: 'uploads/'})
 
-app.post('/upload_files', upload.array('files'), uploadFiles)
-
-function uploadFiles(req,res) {
-  console.log(req.body)
-  console.log(req.files)
-  res.json({ message: 'Successfully uploaded files'})
-}
-
 // mongoose.connect('mongodb://127.0.0.1', { useNewUrlParser: true, useUnifiedTopology: true });
 // const connection = mongoose.connection;
 // connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
