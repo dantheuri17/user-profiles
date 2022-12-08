@@ -24,33 +24,42 @@ const multer = require('multer')
 const uuid = require('uuid').v4
 const mongoose = require('mongoose')
 const Image = require('./models/Image')
+const upload = multer({ dest: 'uploads/'})
 
-mongoose.connect('mongodb://127.0.0.1', { useNewUrlParser: true, useUnifiedTopology: true });
+app.post('/upload_files', upload.array('files'), uploadFiles)
+
+function uploadFiles(req,res) {
+  console.log(req.body)
+  console.log(req.files)
+  res.json({ message: 'Successfully uploaded files'})
+}
+
+// mongoose.connect('mongodb://127.0.0.1', { useNewUrlParser: true, useUnifiedTopology: true });
 // const connection = mongoose.connection;
 // connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads')
-    },
-    filename: (req, file, cb) => {
-        const ext = path.extname(file.originalname);
-        const id = uuid();
-        const filePath = `images/${id}${ext}`;
-        Image.create({ filePath: filePath })
-            .then(() => {
-                cb(null, filePath)
-            });
-    }
-})
-const upload = multer({ storage }); // or simply { dest: 'uploads/' }
-app.use(express.static('public'));
-app.use(express.static('uploads'));
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, 'uploads')
+//     },
+//     filename: (req, file, cb) => {
+//         const ext = path.extname(file.originalname);
+//         const id = uuid();
+//         const filePath = `images/${id}${ext}`;
+//         Image.create({ filePath: filePath })
+//             .then(() => {
+//                 cb(null, filePath)
+//             });
+//     }
+// })
+// const upload = multer({ storage }); // or simply { dest: 'uploads/' }
+// app.use(express.static('public'));
+// app.use(express.static('uploads'));
 
-app.post('/upload', upload.array('avatar'), (req, res) => {
-    return res.redirect('/users');
-});
+// app.post('/upload', upload.array('transcripts'), (req, res) => {
+//     return res.redirect('/users');
+// });
 
 // app.get('/images', (req, res) => {
 //     Image.find()
