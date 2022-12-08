@@ -38,6 +38,7 @@ router.get('/:username', (req, res, next) => {
     }
 
     res.render('public-profile', { ...results, username });
+    console.log(results)
   });
 })
 
